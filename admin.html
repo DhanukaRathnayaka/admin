@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Set Prices</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+
+        form {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+
+        input,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Admin - Set Prices</h2>
+    <form id="priceForm">
+        <label for="roundPlatePrice">Round Plate Price</label>
+        <input type="number" id="roundPlatePrice" name="roundPlatePrice" placeholder="Enter price" required>
+
+        <label for="boxedPlatePrice">Boxed Plate Price</label>
+        <input type="number" id="boxedPlatePrice" name="boxedPlatePrice" placeholder="Enter price" required>
+
+        <label for="glassPrice">Glass Price</label>
+        <input type="number" id="glassPrice" name="glassPrice" placeholder="Enter price" required>
+
+        <label for="tablePrice">Table Price</label>
+        <input type="number" id="tablePrice" name="tablePrice" placeholder="Enter price" required>
+
+        <label for="chairPrice">Chair Price</label>
+        <input type="number" id="chairPrice" name="chairPrice" placeholder="Enter price" required>
+
+        <button type="submit">Save Prices</button>
+    </form>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHPtBDWSiKdguBuRjfThwuxPJl-J5NIwU",
+            authDomain: "catering-project-e8fdc.firebaseapp.com",
+            databaseURL: "https://catering-project-e8fdc-default-rtdb.firebaseio.com",
+            projectId: "catering-project-e8fdc",
+            storageBucket: "catering-project-e8fdc.firebasestorage.app",
+            messagingSenderId: "999460229091",
+            appId: "1:999460229091:web:9a3faad7c0e5d711925ad6"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        document.getElementById("priceForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const roundPlatePrice = document.getElementById("roundPlatePrice").value;
+            const boxedPlatePrice = document.getElementById("boxedPlatePrice").value;
+            const glassPrice = document.getElementById("glassPrice").value;
+            const tablePrice = document.getElementById("tablePrice").value;
+            const chairPrice = document.getElementById("chairPrice").value;
+
+            const pricesRef = ref(database, 'prices');
+
+            set(pricesRef, {
+                roundPlatePrice,
+                boxedPlatePrice,
+                glassPrice,
+                tablePrice,
+                chairPrice
+            }).then(() => {
+                alert("Prices saved successfully!");
+            }).catch((error) => {
+                alert("Error saving prices: " + error.message);
+            });
+        });
+    </script>
+</body>
+
+</html>
